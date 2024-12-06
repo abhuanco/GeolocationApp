@@ -489,4 +489,3 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 GeolocationApp.Api/appsettings.Development.json
-GeolocationApp.Api/appsettings.json
