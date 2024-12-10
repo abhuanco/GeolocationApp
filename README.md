@@ -25,12 +25,12 @@ Sigue los pasos para configurar y ejecutar el proyecto localmente:
    cd CleanArchitecture
    ```
 
-    2. **Configurar la base de datos**  
+    2. **Configurar la base de datos y endpoints de la api**  
        Crea una base de datos en SQL Server y actualiza las cadenas de conexión en el archivo `appsettings.Development.json` ubicado en la carpeta `GeolocationApp.Api`:
        ```json
        {
          "ConnectionStrings": {
-           "DefaultConnection": "Server=localhost;Database=GeolocationDb;User Id=<usuario>;Password=<contraseña>;"
+           "DefaultConnection": "Server=localhost,1433;Database=GeolocationApi2;User Id=sa;Password=Root@00m;Encrypt=True;Trust Server Certificate=True"
          }
        "GeolocationSetting": {
           "GeolocationApiUrl": "https://xxxxxx/geolocate",
@@ -45,11 +45,12 @@ Sigue los pasos para configurar y ejecutar el proyecto localmente:
    dotnet restore
    ```
 
-4. **Aplicar migraciones**  
+4. **Aplicar migraciones de la base de datos**  
    Aplica las migraciones para crear las tablas en la base de datos configurada:
    ```bash
    dotnet ef database update --project ./GeolocationApp.Infrastructure --startup-project ./GeolocationApp.Api
    ```
+   - **La importacion manual de la base de datos tambien esta disponible en la ruta ```./GeolocationApp/GeolocationApp.Infrastructure/Script SQL/Visits.sql```**
 
 5. **Ejecutar la aplicación**  
    Inicia la aplicación de API ejecutando:
@@ -84,6 +85,11 @@ La API incluye los siguientes endpoints principales:
 - PUT `/api/Visit/{id}`
 - DELETE `/api/Visit/{id}`
 
+## Pruebas unitarias
+1. **Debe ir a la solucion ./GeolocationApp y ejecutar el comando**
+- ```bash
+  dotnet test
+  ```
 
 ## Contribución
 

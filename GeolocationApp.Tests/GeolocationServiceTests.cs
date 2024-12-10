@@ -6,6 +6,7 @@ using GeolocationApp.Application.Interfaces;
 using GeolocationApp.Application.Services;
 using GeolocationApp.Infrastructure.ExternalServices;
 using GeolocationApp.Infrastructure.ExternalServices.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -18,6 +19,7 @@ namespace GeolocationApp.Tests
         private readonly Mock<IExternalApiService> _apiServiceMock;
         private readonly Mock<IOptions<GeolocationSetting>> _geolocationSettingsMock;
         private readonly IGeolocationService _geolocationService;
+        private readonly Mock<ILogger<GeolocationService>> _loggerMock;
 
         public GeolocationServiceTests()
         {
@@ -30,8 +32,9 @@ namespace GeolocationApp.Tests
                     GeolocationApiUrl = "https://api.example.com/geolocation",
                     CurrencyApiUrl = "https://api.vatcomply.com/currencies"
                 });
+            _loggerMock = new Mock<ILogger<GeolocationService>>();
 
-            _geolocationService = new GeolocationService(_apiServiceMock.Object, _geolocationSettingsMock.Object);
+            _geolocationService = new GeolocationService(_apiServiceMock.Object, _geolocationSettingsMock.Object, _loggerMock.Object);
         }
 
         [Fact]

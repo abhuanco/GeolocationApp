@@ -4,12 +4,13 @@ using GeolocationApp.Application.Exceptions;
 using GeolocationApp.Application.Interfaces;
 using GeolocationApp.Infrastructure.ExternalServices;
 using GeolocationApp.Infrastructure.ExternalServices.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace GeolocationApp.Application.Services
 {
-    public class GeolocationService(IExternalApiService apiService, IOptions<GeolocationSetting> geolocationSettings): IGeolocationService
+    public class GeolocationService(IExternalApiService apiService, IOptions<GeolocationSetting> geolocationSettings, ILogger<GeolocationService> logger): IGeolocationService
     {
         public async Task<GeoLocationResponse> GetGeoLocationAsync()
         {
@@ -28,7 +29,8 @@ namespace GeolocationApp.Application.Services
             }
             catch (JsonException ex)
             {
-                throw new DataDeserializeException(HttpStatusCode.InternalServerError, "Geolocation API response could not be deserialized.");
+                logger.LogError(ex, $"Deserialization resulted in a null object.");
+                throw new DataDeserializeException(HttpStatusCode.InternalServerError, $"Geolocation API response could not be deserialized.");
             }
         }
 

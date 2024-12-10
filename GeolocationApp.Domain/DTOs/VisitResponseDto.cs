@@ -10,7 +10,7 @@ namespace GeolocationApp.Domain.DTOs
         public string? Symbol { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
-        public string Ip { get; set; }
+        public string Ip { get; set; } = "";
         public DateTime VisitDate { get; set; }
     }
 }
