@@ -9,30 +9,30 @@ namespace GeolocationApp.Application.Services
 {
     public class VisitService(IVisitRepository visitRepository, IMapper mapper) : IVisitService
     {
-        public async Task<VisitResponseDto?> GetVisitByIdAsync(Guid id)
+        public async Task<ResponseVisit?> GetVisitByIdAsync(Guid id)
         {
             var visit = await visitRepository.GetByIdAsync(id);
-            return mapper.Map<VisitResponseDto>(visit);
+            return mapper.Map<ResponseVisit>(visit);
         }
 
-        public async Task<VisitResponseDto> CreateVisitAsync(VisitRequestDto visitRequestDto)
+        public async Task<ResponseVisit> CreateVisitAsync(UpdateVisit updateVisit)
         {
             // Check if exist Ip
-            var existVisit = await visitRepository.GetVisitByIpAsync(visitRequestDto.Ip);
-            if (existVisit != null) return mapper.Map<VisitResponseDto>(existVisit);
+            var existVisit = await visitRepository.GetVisitByIpAsync(updateVisit.Ip);
+            if (existVisit != null) return mapper.Map<ResponseVisit>(existVisit);
             
-            var visit = mapper.Map<Visit>(visitRequestDto);
+            var visit = mapper.Map<Visit>(updateVisit);
             var response = await visitRepository.AddAsync(visit);
-            return mapper.Map<VisitResponseDto>(response);
+            return mapper.Map<ResponseVisit>(response);
         }
 
-        public async Task<VisitResponseDto?> UpdateVisitAsync(Guid id, VisitRequestDto visitRequest)
+        public async Task<ResponseVisit?> UpdateVisitAsync(Guid id, UpdateVisit updateVisitUpdate)
         {
             var visitEntity = await visitRepository.GetByIdAsync(id);
 
-            mapper.Map(visitRequest, visitEntity);
+            mapper.Map(updateVisitUpdate, visitEntity);
             var updatedVisit = await visitRepository.UpdateAsync(visitEntity);
-            return mapper.Map<VisitResponseDto>(updatedVisit);
+            return mapper.Map<ResponseVisit>(updatedVisit);
         }
 
         public async Task<bool> DeleteVisitAsync(Guid id)
@@ -40,7 +40,7 @@ namespace GeolocationApp.Application.Services
             return await visitRepository.DeleteAsync(id);
         }
 
-        public async Task<(IEnumerable<VisitResponseDto> data, int totalCount)> GetPagedVisitsAsync(
+        public async Task<(IEnumerable<ResponseVisit> data, int totalCount)> GetPagedVisitsAsync(
             int pageIndex,
             int pageSize,
             Expression<Func<Visit, bool>>? filter = null,
@@ -53,12 +53,12 @@ namespace GeolocationApp.Application.Services
                 orderBy
             );
 
-            var visitResponses = mapper.Map<IEnumerable<VisitResponseDto>>(visits);
+            var visitResponses = mapper.Map<IEnumerable<ResponseVisit>>(visits);
 
             return (visitResponses, totalCount);
         }
 
-        public async Task<(IEnumerable<VisitResponseDto> data, int totalCount)> GetVisitsOrderedByDateAsync(int pageIndex, int pageSize,
+        public async Task<(IEnumerable<ResponseVisit> data, int totalCount)> GetVisitsOrderedByDateAsync(int pageIndex, int pageSize,
             Expression<Func<Visit, bool>>? filter = null)
         {
             var (visits, totalCount) = await visitRepository.GetVisitsOrderedByDateAsync(
@@ -67,7 +67,7 @@ namespace GeolocationApp.Application.Services
                 null
             );
 
-            var visitResponses = mapper.Map<IEnumerable<VisitResponseDto>>(visits);
+            var visitResponses = mapper.Map<IEnumerable<ResponseVisit>>(visits);
 
             return (visitResponses, totalCount);
         }

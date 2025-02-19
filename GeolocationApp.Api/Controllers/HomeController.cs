@@ -7,6 +7,7 @@ namespace GeolocationApp.Api.Controllers;
 public class HomeController : ControllerBase
 {
     [HttpGet]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Index()
     {
         var info = new

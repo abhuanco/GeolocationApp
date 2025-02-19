@@ -7,22 +7,22 @@ namespace GeolocationApp.Application.Interfaces
 {
     public interface IVisitService
     {
-        Task<VisitResponseDto?> GetVisitByIdAsync(Guid id);
+        Task<ResponseVisit?> GetVisitByIdAsync(Guid id);
 
-        Task<VisitResponseDto> CreateVisitAsync(VisitRequestDto visitRequestDto);
+        Task<ResponseVisit> CreateVisitAsync(UpdateVisit updateVisit);
         
-        Task<VisitResponseDto?> UpdateVisitAsync(Guid id, VisitRequestDto visit);
+        Task<ResponseVisit?> UpdateVisitAsync(Guid id, UpdateVisit updateVisit);
         
         Task<bool> DeleteVisitAsync(Guid id);
         
-        Task<(IEnumerable<VisitResponseDto> data, int totalCount)> GetPagedVisitsAsync(
+        Task<(IEnumerable<ResponseVisit> data, int totalCount)> GetPagedVisitsAsync(
             int pageIndex,
             int pageSize,
             Expression<Func<Visit, bool>>? filter = null,
             Func<IQueryable<Visit>, IOrderedQueryable<Visit>>? orderBy = null
         );
         
-        Task<(IEnumerable<VisitResponseDto> data, int totalCount)> GetVisitsOrderedByDateAsync(
+        Task<(IEnumerable<ResponseVisit> data, int totalCount)> GetVisitsOrderedByDateAsync(
             int pageIndex,
             int pageSize,
             Expression<Func<Visit, bool>>? filter = null

@@ -1,6 +1,5 @@
 using GeolocationApp.Application.Interfaces;
 using GeolocationApp.Domain.DTOs;
-using GeolocationApp.Infrastructure.ExternalServices.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeolocationApp.Api.Controllers
@@ -51,7 +50,7 @@ namespace GeolocationApp.Api.Controllers
             var geolocation = await geolocationService.GetGeoLocationAsync();
             await currencyService.LoadCurrenciesAsync();
             var currency = currencyService.GetCurrencyByCodeAsync(geolocation.Currency);
-            var visitRequest = new VisitRequestDto
+            var visitRequest = new UpdateVisit
             {
                 Country = geolocation.Name,
                 Emoji = geolocation.Emoji,
@@ -76,12 +75,12 @@ namespace GeolocationApp.Api.Controllers
         [EndpointSummary("Update")]
         [EndpointDescription("Update visit by id  and data visit")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] VisitRequestDto visitRequest)
+        public async Task<IActionResult> UpdateVisit(Guid id, [FromBody] UpdateVisit updateVisitUpdate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            var updatedVisit = await visitService.UpdateVisitAsync(id, visitRequest);
+            var updatedVisit = await visitService.UpdateVisitAsync(id, updateVisitUpdate);
             return Ok(updatedVisit);
         }
 

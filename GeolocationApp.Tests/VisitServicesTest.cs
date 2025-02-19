@@ -18,7 +18,7 @@ public class VisitServicesTest
     {
         // Arrange
         var visitId = Guid.NewGuid();
-        var expectedVisit = new VisitResponseDto
+        var expectedVisit = new ResponseVisit
         {
             Id = visitId,
             Country = "Bolivia",
@@ -47,7 +47,7 @@ public class VisitServicesTest
 
         _visitServiceMock
             .Setup(service => service.GetVisitByIdAsync(visitId))
-            .ReturnsAsync((VisitResponseDto?)null);
+            .ReturnsAsync((ResponseVisit?)null);
 
         // Act
         var result = await _visitServiceMock.Object.GetVisitByIdAsync(visitId);
@@ -60,14 +60,14 @@ public class VisitServicesTest
     public async Task CreateVisitAsync_ShouldReturnVisit_WhenDataIsValid()
     {
         // Arrange
-        var visitRequest = new VisitRequestDto
+        var visitRequest = new UpdateVisit
         {
             Country = "Bolivia",
             Currency = "BOB",
             VisitDate = DateTime.UtcNow
         };
 
-        var expectedVisit = new VisitResponseDto
+        var expectedVisit = new ResponseVisit
         {
             Id = Guid.NewGuid(),
             Country = "Bolivia",
@@ -93,14 +93,14 @@ public class VisitServicesTest
     {
         // Arrange
         var visitId = Guid.NewGuid();
-        var visitRequest = new VisitRequestDto
+        var visitRequest = new UpdateVisit
         {
             Country = "Argentina",
             Currency = "ARS",
             VisitDate = DateTime.UtcNow
         };
 
-        var updatedVisit = new VisitResponseDto
+        var updatedVisit = new ResponseVisit
         {
             Id = visitId,
             Country = "Argentina",
@@ -145,10 +145,10 @@ public class VisitServicesTest
         int pageIndex = 0;
         int pageSize = 2;
 
-        var expectedVisits = new List<VisitResponseDto>
+        var expectedVisits = new List<ResponseVisit>
         {
-            new VisitResponseDto { Country = "Bolivia", Currency = "BOB", VisitDate = DateTime.UtcNow },
-            new VisitResponseDto { Country = "Argentina", Currency = "ARS", VisitDate = DateTime.UtcNow.AddDays(-1) }
+            new ResponseVisit { Country = "Bolivia", Currency = "BOB", VisitDate = DateTime.UtcNow },
+            new ResponseVisit { Country = "Argentina", Currency = "ARS", VisitDate = DateTime.UtcNow.AddDays(-1) }
         };
 
         _visitServiceMock

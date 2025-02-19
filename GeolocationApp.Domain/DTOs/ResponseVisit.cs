@@ -1,6 +1,6 @@
 namespace GeolocationApp.Domain.DTOs
 {
-    public class VisitResponseDto
+    public class ResponseVisit
     {
         public Guid Id { get; set; }
         public required string Country { get; set; }

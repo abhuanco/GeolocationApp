@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GeolocationApp.Domain.DTOs
 {
-    public class VisitRequestDto
+    public class CreateVisit
     {
         [Required(ErrorMessage = "Country is required.")]
         [StringLength(100, ErrorMessage = "Country name cannot exceed 100 characters.")]

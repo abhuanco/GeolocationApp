@@ -1,6 +1,6 @@
 @GeolocationApp.Api_HostAddress = http://localhost:5103
 
-GET {{GeolocationApp.Api_HostAddress}}/weatherforecast/
+GET {{GeolocationApp.Api_HostAddress}}/api/Visit
 Accept: application/json
 
 ###
